@@ -36,6 +36,7 @@ autoload -U colors && colors
 alias ls="ls -F"
 
 # completion
+fpath=(~/.zsh/Completion $fpath)
 autoload -U compinit && compinit
 # colorize completion
 zstyle ':completion:*:*:kill:*:processes' list-colors "=(#b) #([0-9]#)*=$color[cyan]=$color[red]"
