@@ -1,0 +1,28 @@
+[user]
+  name = Niranjan Paranjape 
+  email = niranjan@c42.in
+[alias]
+  ci = commit
+  cl = clone
+  st = status
+  sh = stash
+  co = checkout
+  br = branch
+  sr = svn rebase
+[status]
+  color = auto
+[color]
+  ui = auto	
+[color "branch"]
+  current = yellow reverse
+  local = yellow
+  remote = green
+[color "diff"]
+  meta = yellow bold
+  frag = magenta bold
+  old = red bold
+  new = green bold
+[color "status"]
+  added = yellow
+  changed = green
+  untracked = cyan
