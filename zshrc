@@ -112,18 +112,11 @@ alias psax='ps ax'
 alias pp='pwd | pbcopy'
 
 # ruby/rails alias
-alias sso='script/server'
-alias ss='script/rails server'
-alias ssob='script/server -p 3001'
-alias sgo='script/generate'
-alias sg='script/rails g'
-alias sd='script/rails destroy'
-alias sco='script/console'
-alias sc='script/rails console'
 alias rdm='rake db:migrate db:test:clone'
 alias gi='gem install'
 alias setupdbs="cp config/database.yml.sample config/database.yml;rake db:create;rake db:create RAILS_ENV=test;rake db:migrate"
 alias clrlogs=':> log/*.log && :> log/*.output'
+alias sd='script/rails destroy'
 
 # emacs
 alias ctaggen='ctags -e `find (app|spec|lib|config)/**/*.rb`'
@@ -165,6 +158,20 @@ function precmd {
   RPS1="%{$fg[yellow]%}$(~/.rvm/bin/rvm-prompt)%{$reset_color%}"
 }
 
+# Rails
+function rails_command {
+  local cmd=$1
+  shift
+  if [ -e script/rails ]; then
+    script/rails $cmd "$@"
+  else
+    script/$cmd "$@"
+  fi
+}
+function ss { rails_command "server" "$@" }
+function ssb { rails_command "server" "-p" "3001" "$@"}
+function sc { rails_command "console" "$@" }
+function sg { rails_command "generate" "$@" }
 
 # Usage:
 # title 'my title'
