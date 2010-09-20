@@ -1,4 +1,3 @@
-# from http://github.com/nono/dotfiles.git
 #compdef rvm
 
 local curcontext="$curcontext" state line cmds ret=1

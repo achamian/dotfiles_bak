@@ -1,5 +1,5 @@
+#compdef gem
 # from http://github.com/nono/dotfiles.git
-#compdef gem gem1.9
 
 gem_general_flags=("(-h --help)"{-h,--help}"[Get help on this command]"
   "(-V --verbose)"{-V,--verbose}"[Set the verbose level of output]"

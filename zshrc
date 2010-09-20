@@ -1,7 +1,6 @@
 export PKGCONFIG_PATH="/usr/local/lib/pkgconfig:/opt/local/lib/pkgconfig"
-export PATH=/opt/local/bin:/usr/local/mysql/bin/:$PATH:/usr/local/src/jruby-1.3.1/bin/:/opt/local/sbin/
+export PATH=/usr/local/bin:/usr/local/sbin:/usr/local/mysql/bin/:$PATH
 export SVN_EDITOR="vim"
-export MANPATH=/opt/local/man:$MANPATH
 # number of lines kept in history
 export HISTSIZE=10000
 # number of lines saved in the history after logout
@@ -118,6 +117,31 @@ alias setupdbs="cp config/database.yml.sample config/database.yml;rake db:create
 alias clrlogs=':> log/*.log && :> log/*.output'
 alias sd='script/rails destroy'
 
+# Rails
+function rails_command {
+  local cmd=$1
+  shift
+  if [ -e script/rails ]; then
+    script/rails $cmd "$@"
+  else
+    script/$cmd "$@"
+  fi
+}
+function ss { rails_command "server" "$@" }
+function ssb { rails_command "server" "-p" "3001" "$@"}
+function sc { rails_command "console" "$@" }
+function sg { rails_command "generate" "$@" }
+
+# rvm hash
+alias rgu='rvm gemset use'
+alias rgc='rvm gemset create'
+alias rgl='rvm gemset list'
+alias rvmd='rvm default'
+alias rvml='rvm list'
+function rwc {
+  rvm wrapper 1.8.7@$1 textmate
+}
+
 # emacs
 alias ctaggen='ctags -e `find (app|spec|lib|config)/**/*.rb`'
 
@@ -129,9 +153,6 @@ alias rabb='sudo rabbitmqctl list_bindings'
 alias rabstart='sudo rabbitmq-server -detached'
 alias rabstop='sudo rabbitmqctl stop'
 alias rabreset='sudo rabbitmqctl stop_app && sudo rabbitmqctl reset && sudo rabbitmqctl start_app'
-
-export slice=prgmr
-alias slice='ssh prgmr'
 
 # ensures that deleting word on /path/to/file deletes only 'file', this removes the '/' from $WORDCHARS
 export WORDCHARS="${WORDCHARS:s#/#}"
@@ -157,21 +178,6 @@ function precmd {
   PS1="%{$fg[yellow]%}%~%{$fg[green]%}$(parse_git_branch)%{$reset_color%}$ "	
   RPS1="%{$fg[yellow]%}$(~/.rvm/bin/rvm-prompt)%{$reset_color%}"
 }
-
-# Rails
-function rails_command {
-  local cmd=$1
-  shift
-  if [ -e script/rails ]; then
-    script/rails $cmd "$@"
-  else
-    script/$cmd "$@"
-  fi
-}
-function ss { rails_command "server" "$@" }
-function ssb { rails_command "server" "-p" "3001" "$@"}
-function sc { rails_command "console" "$@" }
-function sg { rails_command "generate" "$@" }
 
 # Usage:
 # title 'my title'
