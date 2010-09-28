@@ -114,7 +114,7 @@ alias pp='pwd | pbcopy'
 alias rdm='rake db:migrate db:test:clone'
 alias gi='gem install'
 alias setupdbs="cp config/database.yml.sample config/database.yml;rake db:create;rake db:create RAILS_ENV=test;rake db:migrate"
-alias clrlogs=':> log/*.log && :> log/*.output'
+alias clrlogs=':> log/*.log'
 alias sd='script/rails destroy'
 
 # Rails
