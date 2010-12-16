@@ -78,10 +78,16 @@ zstyle ':completion:*' cache-path ~/.zsh/cache
 zstyle ':completion:*' squeeze-slashes true
 
 # named directories
-for i in $HOME/Work/ruby/ror/*; do
-  project=`basename $i`;
-  hash -d $project="$i"
-done
+work_dirs="$HOME/.work_dirs"
+if [ -f $work_dirs ]; then
+  while read -r work_dir
+  do
+    for i in `ls -d $HOME/$work_dir/*`; do
+      project=`basename $i`;
+      hash -d $project="$i"
+    done
+  done < "$work_dirs"
+fi
 
 
 # global aliases
@@ -132,6 +138,9 @@ function ssb { rails_command "server" "-p" "3001" "$@"}
 function sc { rails_command "console" "$@" }
 function sg { rails_command "generate" "$@" }
 
+# Bundler
+export BUNDLER_EDITOR="mate"
+
 # rvm hash
 alias rgu='rvm gemset use'
 alias rgc='rvm gemset create'
@@ -161,8 +170,7 @@ export CUCUMBER_COLORS=pending_param=magenta:failed_param=magenta:passed_param=m
 export RSPEC=true
 
 # rvm configuration
-[[ -s /Users/niranjan/.rvm/scripts/rvm ]] && source /Users/niranjan/.rvm/scripts/rvm 
-rvm default
+[[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm && rvm default
 
 parse_git_branch() {
  	git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
@@ -176,7 +184,7 @@ function title () {
 function precmd {
   title `pwd`
   PS1="%{$fg[yellow]%}%~%{$fg[green]%}$(parse_git_branch)%{$reset_color%}$ "	
-  RPS1="%{$fg[yellow]%}$(~/.rvm/bin/rvm-prompt)%{$reset_color%}"
+  [[ -s $HOME/.rvm/scripts/rvm ]] && RPS1="%{$fg[yellow]%}$(~/.rvm/bin/rvm-prompt)%{$reset_color%}"
 }
 
 # Usage:
@@ -185,13 +193,12 @@ function precmd {
 typeset -U fpath
 autoload -U _git
 
-#EC2 Configuration
-export EC2_HOME=~/.ec2
-export AWS_RDS_HOME=~/.rds
-export PATH=$PATH:$EC2_HOME/bin:$AWS_RDS_HOME/bin
-export EC2_PRIVATE_KEY=`ls $EC2_HOME/pk-*.pem`
-export EC2_CERT=`ls $EC2_HOME/cert-*.pem`
-export JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Home/
+# brew install ec2 ami and api tools
+export JAVA_HOME="/System/Library/Frameworks/JavaVM.framework/Home"
+export EC2_PRIVATE_KEY="$(/bin/ls $HOME/.ec2/pk-*.pem)"
+export EC2_CERT="$(/bin/ls $HOME/.ec2/cert-*.pem)"
+export EC2_AMITOOL_HOME="/usr/local/Cellar/ec2-ami-tools/1.3-45758/jars"
+export EC2_HOME="/usr/local/Cellar/ec2-api-tools/1.3-57419/jars"
 
 #Android SDK Configuration
 export PATH=$PATH:~/.android_sdk/tools
