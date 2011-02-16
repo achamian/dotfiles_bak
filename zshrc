@@ -82,9 +82,9 @@ work_dirs="$HOME/.work_dirs"
 if [ -f $work_dirs ]; then
   while read -r work_dir
   do
-    for i in `ls -d $HOME/$work_dir/*`; do
+    for i in `ls -d $HOME/$work_dir/*/ | sed "s/\/\///g"`; do
       project=`basename $i`;
-      hash -d $project="$i"
+      hash -d $project=$i
     done
   done < "$work_dirs"
 fi
@@ -123,6 +123,10 @@ alias setupdbs="cp config/database.yml.sample config/database.yml;rake db:create
 alias clrlogs=':> log/*.log'
 alias sd='script/rails destroy'
 
+function gemc {
+  gem list | grep $1 | awk '{print "gem \"" $1 "\", \"~> " substr($2, 2, length($2) - 2) "\""}'
+}
+
 # Rails
 function rails_command {
   local cmd=$1
@@ -142,6 +146,7 @@ function sg { rails_command "generate" "$@" }
 export BUNDLER_EDITOR="mate"
 
 # rvm hash
+alias rwt='rvm wrapper `rvm-prompt` textmate'
 alias rgu='rvm gemset use'
 alias rgc='rvm gemset create'
 alias rgl='rvm gemset list'
