@@ -1,5 +1,5 @@
 export PKGCONFIG_PATH="/usr/local/lib/pkgconfig:/opt/local/lib/pkgconfig"
-export PATH=/usr/local/bin:/usr/local/sbin:/usr/local/mysql/bin/:$PATH
+#export PATH=/usr/local/bin:/usr/local/sbin:/usr/local/mysql/bin/:$PATH
 export SVN_EDITOR="vim"
 # number of lines kept in history
 export HISTSIZE=10000
@@ -109,12 +109,16 @@ alias ......='cd ../../../../..'
 alias .......='cd ../../../../../..'
 alias spi='sudo port install'
 alias ep="vi ~/.zshrc; source ~/.zshrc"
+alias epm="mate -w ~/.zshrc; source ~/.zshrc"
 alias sup='svn up --ignore-externals'
 alias sdif='svn di | mate'
 alias aemacs='open /Applications/Aquamacs\ Emacs.app'
 alias tailf='tail -f'
 alias psax='ps ax'
 alias pp='pwd | pbcopy'
+alias ll='ls -l'
+alias la='ls -a'
+alias lla='ls -la'
 
 # ruby/rails alias
 alias rdm='rake db:migrate db:test:clone'
@@ -148,7 +152,6 @@ export BUNDLER_EDITOR="mate"
 # rvm hash
 alias rwt='rvm wrapper `rvm-prompt` textmate'
 alias rgu='rvm gemset use'
-alias rgc='rvm gemset create'
 alias rgl='rvm gemset list'
 alias rvmd='rvm default'
 alias rvml='rvm list'
@@ -156,17 +159,22 @@ function rwc {
   rvm wrapper 1.8.7@$1 textmate
 }
 
+function rgcu () {
+  rvm gemset create $1 && rvm gemset use $1
+}
+
+
 # emacs
 alias ctaggen='ctags -e `find (app|spec|lib|config)/**/*.rb`'
 
 # rabbitmq alias
-alias rabq='sudo rabbitmqctl list_queues name durable messages messages_ready messages_unacknowledged messages_uncommitted'
-alias rabe='sudo rabbitmqctl list_exchanges name type durable'
-alias rabc='sudo rabbitmqctl list_connections user peer_address peer_port node address port timeout state'
-alias rabb='sudo rabbitmqctl list_bindings'
-alias rabstart='sudo rabbitmq-server -detached'
-alias rabstop='sudo rabbitmqctl stop'
-alias rabreset='sudo rabbitmqctl stop_app && sudo rabbitmqctl reset && sudo rabbitmqctl start_app'
+alias rabq='rabbitmqctl list_queues name durable messages messages_ready messages_unacknowledged messages_uncommitted'
+alias rabe='rabbitmqctl list_exchanges name type durable'
+alias rabc='rabbitmqctl list_connections user peer_address peer_port node address port timeout state'
+alias rabb='rabbitmqctl list_bindings'
+alias rabstart='rabbitmq-server -detached'
+alias rabstop='rabbitmqctl stop'
+alias rabreset='rabbitmqctl stop_app && rabbitmqctl reset && rabbitmqctl start_app'
 
 # ensures that deleting word on /path/to/file deletes only 'file', this removes the '/' from $WORDCHARS
 export WORDCHARS="${WORDCHARS:s#/#}"
@@ -188,7 +196,7 @@ function title () {
 
 function precmd {
   title `pwd`
-  PS1="%{$fg[yellow]%}%~%{$fg[green]%}$(parse_git_branch)%{$reset_color%}$ "	
+  PS1="%{$fg[cyan]%}%~%{$fg[green]%}$(parse_git_branch)%{$reset_color%}$ "
   [[ -s $HOME/.rvm/scripts/rvm ]] && RPS1="%{$fg[yellow]%}$(~/.rvm/bin/rvm-prompt)%{$reset_color%}"
 }
 
@@ -204,6 +212,9 @@ export EC2_PRIVATE_KEY="$(/bin/ls $HOME/.ec2/pk-*.pem)"
 export EC2_CERT="$(/bin/ls $HOME/.ec2/cert-*.pem)"
 export EC2_AMITOOL_HOME="/usr/local/Cellar/ec2-ami-tools/1.3-45758/jars"
 export EC2_HOME="/usr/local/Cellar/ec2-api-tools/1.3-57419/jars"
+
+# rbx
+export RBXOPT=-Xrbc.db
 
 #Android SDK Configuration
 export PATH=$PATH:~/.android_sdk/tools
