@@ -119,7 +119,9 @@ alias pp='pwd | pbcopy'
 alias ll='ls -l'
 alias la='ls -a'
 alias lla='ls -la'
-
+function psg {
+  ps aux | grep $1
+}
 # ruby/rails alias
 alias rdm='rake db:migrate db:test:clone'
 alias gi='gem install'
@@ -215,6 +217,9 @@ export EC2_HOME="/usr/local/Cellar/ec2-api-tools/1.3-57419/jars"
 
 # rbx
 export RBXOPT=-Xrbc.db
+
+# postgresql
+export PGDATA=/usr/local/pgsql/data
 
 #Android SDK Configuration
 export PATH=$PATH:~/.android_sdk/tools
